@@ -15,10 +15,10 @@ import java.util.LinkedList;
  */
 public class RSADecryptor {
 
-    private long n; // prime product
-    private LinkedList<Long> binaryCoeffsOfD; // coefficients of d as binary sum
-    private long[] encrypted; // encrypted numbers
-    private long[] decrypted; // decrypted numbers
+    private int n; // prime product
+    private LinkedList<Integer> binaryCoeffsOfD; // coefficients of d as binary sum
+    private int[] encrypted; // encrypted numbers
+    private int[] decrypted; // decrypted numbers
 
     /**
      *
@@ -29,7 +29,7 @@ public class RSADecryptor {
      * @throws IOException if the file doesn't exist or cannot be read
      * @throws ParseException if the file contains invalid characters
      */
-    public RSADecryptor(long n, long d, String pathToFile) throws IOException, ParseException {
+    public RSADecryptor(int n, int d, String pathToFile) throws IOException, ParseException {
         this.n = n;
         encrypted = importFile(pathToFile);
         binaryCoeffsOfD = calculateBinarySum(d);
@@ -40,7 +40,7 @@ public class RSADecryptor {
      * Get the encrypted numbers that were read from file
      * @return an array holding encrypted numbers
      */
-    public long[] getEncrypted() {
+    public int[] getEncrypted() {
         return encrypted;
     }
 
@@ -48,7 +48,7 @@ public class RSADecryptor {
      * Get the decrypted numbers
      * @return an array holding decrypted numbers
      */
-    public long[] getDecrypted() {
+    public int[] getDecrypted() {
         return decrypted;
     }
 
@@ -58,8 +58,8 @@ public class RSADecryptor {
      * @param z an integer
      * @return a LinkedList with the coefficients of z as binary sum in descending order
      */
-    private LinkedList<Long> calculateBinarySum(long z) {
-        LinkedList<Long> sum = new LinkedList<>();
+    private LinkedList<Integer> calculateBinarySum(int z) {
+        LinkedList<Integer> sum = new LinkedList<>();
         while (z > 0) {
             sum.add(z % 2);
             z = z / 2;
@@ -74,11 +74,11 @@ public class RSADecryptor {
      * @throws IOException if the file doesn't exist or cannot be read
      * @throws ParseException if the file contains invalid characters
      */
-    private long[] importFile(String pathToFile) throws IOException, ParseException{
+    private int[] importFile(String pathToFile) throws IOException, ParseException{
         String contentAsString = new String(Files.readAllBytes(Paths.get(pathToFile)));
         // numbers could be separated either by blank(s) or by line break
         String[] content = contentAsString.split("[\\s+\\n\\r\\s]+");
-        long[] numbers = new long[content.length];
+        int[] numbers = new int[content.length];
         try {
             for (int i = 0; i < content.length; i++) {
                 numbers[i] = Integer.parseInt(content[i]);
@@ -94,8 +94,8 @@ public class RSADecryptor {
      * Decrypts the RSA encrypted numbers in an array.
      * @return an array that contains the decrypted numbers
      */
-    private long[] decryptNumbers() {
-        decrypted = new long[encrypted.length];
+    private int[] decryptNumbers() {
+        decrypted = new int[encrypted.length];
         for (int i = 0; i < encrypted.length; i++) {
             decrypted[i] = decryptNumber(encrypted[i]);
         }
@@ -108,8 +108,8 @@ public class RSADecryptor {
      * @param x the encrypted number
      * @return the decrypted number
      */
-    private long decryptNumber(long x) {
-        long z = 1;
+    private int decryptNumber(int x) {
+        int z = 1;
         for (int i = binaryCoeffsOfD.size()-1; i >= 0; i--) {
             z = (z * z) % n;
             if (binaryCoeffsOfD.get(i) == 1) {

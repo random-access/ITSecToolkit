@@ -10,18 +10,18 @@ package org.random_access.rsacracker;
  */
 public class RSASecretCalculator {
 
-    private long n; // prime product
-    private long e; // encryption key
-    private long p; // first prime number
-    private long q; // second prime number
-    private long d; // decryption key
+    private int n; // prime product
+    private int e; // encryption key
+    private int p; // first prime number
+    private int q; // second prime number
+    private int d; // decryption key
 
     /**
      * Instantiates an RSASecretCalculator
      * @param n product of 2 primes
      * @param e encryption key
      */
-    public RSASecretCalculator(long n, long e) {
+    public RSASecretCalculator(int n, int e) {
         this.n = n;
         this.e = e;
     }
@@ -38,7 +38,7 @@ public class RSASecretCalculator {
      * Get the first prime factor
      * @return p, the first prime factor
      */
-    public long getP() {
+    public int getP() {
         return p;
     }
 
@@ -46,7 +46,7 @@ public class RSASecretCalculator {
      * Get the second prime factor
      * @return q, the second prime factor
      */
-    public long getQ() {
+    public int getQ() {
         return q;
     }
 
@@ -54,7 +54,7 @@ public class RSASecretCalculator {
      * Get the secret key d
      * @return d, the secret key
      */
-    public long getD() {
+    public int getD() {
         return d;
     }
 
@@ -65,7 +65,7 @@ public class RSASecretCalculator {
      * @return true, if calculation was successful, else false
      */
     private boolean calculateSecret() {
-        for (long k = 1; k < n; k++) {
+        for (int k = 1; k < n; k++) {
             if ((k * (p-1) * (q-1) + 1) % e == 0) {
                 d = (k * (p-1) * (q-1) + 1) / e;
                 return true;
@@ -81,8 +81,8 @@ public class RSASecretCalculator {
      * @return true if primes could be found, else false.
      */
     private boolean calculateFactors() {
-        long squareRoot = (long) Math.floor(Math.sqrt(n));
-        for (long i = squareRoot; i >= 2; i--) {
+        int squareRoot = (int) Math.floor(Math.sqrt(n));
+        for (int i = squareRoot; i >= 2; i--) {
             if (isPrime(i)) {
                 q = i;
                 if (findLargerFactor()) {
@@ -99,7 +99,7 @@ public class RSASecretCalculator {
      * @return true, if q could be found, else false
      */
     private boolean findLargerFactor() {
-        long i = 2;
+        int i = 2;
         while (i <= n) {
             if (isPrime(i) && q * i == n) {
                 p = i;
@@ -120,7 +120,7 @@ public class RSASecretCalculator {
         if (number < 2) {
             return false;
         }
-        for (long i = 2; i < Math.floor(Math.sqrt(number)); i++) {
+        for (int i = 2; i < Math.floor(Math.sqrt(number)); i++) {
             if (number % i == 0) {
                 return false;
             }

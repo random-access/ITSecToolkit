@@ -13,8 +13,8 @@ import java.util.Scanner;
  */
 public class RSACracker {
 
-    private static long n;
-    private static long d;
+    private static int n;
+    private static int d;
 
     /**
      * Entry point of the program
@@ -50,19 +50,19 @@ public class RSACracker {
     }
 
     /**
-     *
+     * Asks user to enter n and encryption key, then starts calculation of decryption key d
      * @param sc scanner for getting user input
      */
     private static void startSecretCalculation(Scanner sc) {
         System.out.print("Enter n (prime product): ");
         n = sc.nextInt();
         System.out.print("Enter e (encryption key): ");
-        long e = sc.nextInt();
+        int e = sc.nextInt();
         RSASecretCalculator calculator = new RSASecretCalculator(n, e);
         System.out.println("Calculating secret for n = " + n + " and e = " + e + "...");
         if (calculator.calculate()) {
-            long p = calculator.getP();
-            long q = calculator.getQ();
+            int p = calculator.getP();
+            int q = calculator.getQ();
             d = calculator.getD();
             System.out.println("Secret found! ");
             System.out.println("p = " + p);
@@ -73,6 +73,13 @@ public class RSACracker {
         }
     }
 
+    /**
+     * Starts decryption of numbers in a file. Calculates secret key if not calculated before via StartSecretCalculation.
+     * @param sc scanner for getting user input
+     * @param hasKey true if executed after startSecretCalculation, else false
+     * @throws IOException if file with encrypted numbers cannot be read or doesn't exist
+     * @throws ParseException if file contains invalid characters (anything except numbers, blanks and line breaks)
+     */
     private static void startDecryption(Scanner sc, boolean hasKey) throws IOException, ParseException {
 
         // read decryption parameters if they were not calculated before

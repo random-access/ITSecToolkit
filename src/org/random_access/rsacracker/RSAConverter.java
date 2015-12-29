@@ -14,13 +14,13 @@ package org.random_access.rsacracker;
  */
 public class RSAConverter {
 
-    private long[] decrypted; // decrypted numbers
+    private int[] decrypted; // decrypted numbers
 
     /**
      * Instantiates an RSAConverter
      * @param decrypted an array holding the numbers which are already decrypted
      */
-    public RSAConverter(long[] decrypted) {
+    public RSAConverter(int[] decrypted) {
         this.decrypted = decrypted;
     }
 
@@ -31,7 +31,7 @@ public class RSAConverter {
      */
     public String getPlainText() {
         StringBuilder sb = new StringBuilder();
-        for (long number : decrypted) {
+        for (int number : decrypted) {
             sb.append(getChars(number));
         }
         return sb.toString();
@@ -43,8 +43,8 @@ public class RSAConverter {
      * @param number the number that encodes 3 chars
      * @return a String of length 3
      */
-    private String getChars (long number) {
-        long[] charNumbers = new long[3];
+    private String getChars (int number) {
+        int[] charNumbers = new int[3];
         int [] factors = {27*27, 27, 1};
         for (int i = 0; i < charNumbers.length; i++) {
             charNumbers[i] = number / factors[i];
@@ -60,9 +60,9 @@ public class RSAConverter {
      * @param charNumbers an array holding numbers in letter code
      * @return a String with the converted letters
      */
-    private String convertNumbersToLetters(long[] charNumbers) {
+    private String convertNumbersToLetters(int[] charNumbers) {
         StringBuilder sb = new StringBuilder();
-        for (long number : charNumbers) {
+        for (int number : charNumbers) {
             sb.append((char) (number + 96));
         }
         return sb.toString();
