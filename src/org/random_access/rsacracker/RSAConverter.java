@@ -32,7 +32,7 @@ public class RSAConverter {
     public String getPlainText() {
         StringBuilder sb = new StringBuilder();
         for (int number : decrypted) {
-            sb.append(getChars(number));
+            sb.append(convertToChars(number));
         }
         return sb.toString();
     }
@@ -43,14 +43,14 @@ public class RSAConverter {
      * @param number the number that encodes 3 chars
      * @return a String of length 3
      */
-    private String getChars (int number) {
+    private String convertToChars(int number) {
         int[] charNumbers = new int[3];
         int [] factors = {27*27, 27, 1};
         for (int i = 0; i < charNumbers.length; i++) {
             charNumbers[i] = number / factors[i];
             number = number % factors[i];
         }
-        return convertNumbersToLetters(charNumbers);
+        return getChars(charNumbers);
     }
 
     /**
@@ -60,7 +60,7 @@ public class RSAConverter {
      * @param charNumbers an array holding numbers in letter code
      * @return a String with the converted letters
      */
-    private String convertNumbersToLetters(int[] charNumbers) {
+    private String getChars(int[] charNumbers) {
         StringBuilder sb = new StringBuilder();
         for (int number : charNumbers) {
             sb.append((char) (number + 96));
